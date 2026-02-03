@@ -1,27 +1,43 @@
-# Project: NumPyNet (Deep Learning from Scratch)
 
-## 🎯 Objective
-Build a modular deep learning library using **only NumPy** to demonstrate mastery of the mathematical foundations of backpropagation and gradient descent.
+# NumPyNet: Deep Learning from Scratch
+
+NumPyNet is a modular, object-oriented Deep Learning library built entirely from scratch using **NumPy**. By bypassing high-level frameworks like PyTorch, this project demonstrates a deep-level understanding of the mathematical foundations of neural networks, specifically backpropagation and gradient descent.
+
+## 🌟 Key Features
+- **Modular OOP Design:** Base `Layer` class architecture allows for easy extension of new layer types or activations.
+- **Automated Training Pipeline:** A `NeuralNetwork` wrapper class that handles the training loop, forward/backward passes, and loss calculation.
+- **Manual Gradient Calculation:** All derivatives and weight updates are manually coded without the use of `autograd`.
+- **Weight Initialization:** Implements Xavier Glorot inspired initialization to prevent vanishing and exploding gradients.
+
+## 🧠 Mathematical Foundations
+The core of this library is the **Chain Rule**. Each layer is responsible for:
+1.  **Forward Pass:** $Y = f(X, W, b)$ — Computing the output and caching the input.
+2.  **Backward Pass:** $\frac{\partial E}{\partial X} = \frac{\partial E}{\partial Y} \cdot \frac{\partial Y}{\partial X}$ — Computing the gradient of the loss with respect to both parameters and inputs.
 
 ## 🛠 Tech Stack
 - **Language:** Python 3.12
-- **Math:** NumPy
-- **Visuals:** Matplotlib
+- **Core Math:** NumPy
+- **Standard:** PEP 8 Compliant OOP
 
-## 📋 Core Requirements
-1. **Layer Logic:** Create an abstract `Layer` class with `.forward()` and `.backward()` methods.
-2. **Dense Layer:** Implement weight initialization and gradient calculation for $W$ and $b$.
-3. **Activations:** Implement `ReLU`, `Sigmoid`, and their derivatives.
-4. **Loss Functions:** Implement `Mean Squared Error` and `Categorical Cross-Entropy`.
-5. **Optimizer:** Implement `Stochastic Gradient Descent (SGD)`.
+## 🚀 Quick Start: Solving XOR
+The XOR problem is the "Hello World" of Deep Learning, as it requires a non-linear decision boundary.
 
-## 🚀 Milestones
-- [ ] **XOR Verification:** Successfully train a 2-layer MLP to solve the XOR logic gate.
-- [ ] **MNIST Classification:** Train a 3-layer network on the MNIST dataset (digit recognition).
-- [ ] **Mini-Batching:** Implement data shuffling and batch processing for efficiency.
-- [ ] **Benchmarking:** Compare training speed and accuracy against a PyTorch equivalent.
+```python
+from numpynet.layers import Linear, Tanh
+from numpynet.model import NeuralNetwork
+from numpynet.losses import mse, mse_prime
 
-## 📈 Success Criteria
-- **Math:** Zero use of autograd libraries; all derivatives manually coded.
-- **Accuracy:** Solid test accuracy on MNIST digits.
-- **Documentation:** Clear derivation of the chain rule used in the `backward` pass.
+# 1. Define Architecture
+model = NeuralNetwork([
+    Linear(2, 3),
+    Tanh(),
+    Linear(3, 1),
+    Tanh()
+])
+
+# 2. Train
+model.train(X, Y, epochs=5000, learning_rate=0.1, loss_func=mse, loss_prime=mse_prime)
+
+# 3. Predict
+predictions = model.predict(X)
+```
